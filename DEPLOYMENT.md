@@ -84,10 +84,11 @@ git push -u origin main
 - **Name:** `gitam-login-generator` (or any name you prefer)
 - **Region:** Oregon (US West) or closest to you
 - **Branch:** `main`
-- **Root Directory:** Leave blank
+- **Root Directory:** Leave blank (or `./`)
 - **Runtime:** `Python 3`
 - **Build Command:** `pip install -r requirements.txt`
 - **Start Command:** `gunicorn app:app`
+- **Publish Directory:** Leave blank (not needed for Flask backend)
 
 **Instance Type:**
 - **Free** - Good for testing (spins down after 15 min inactivity)
