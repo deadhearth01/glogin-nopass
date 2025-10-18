@@ -20,9 +20,9 @@ Fill in these fields exactly:
 |-------|-------|-------|
 | **Build Command** | `pip install -r requirements.txt` | Installs dependencies |
 | **Start Command** | `gunicorn app:app` | Starts production server |
-| **Publish Directory** | **Leave blank** | Not needed for Flask backend |
+| **Publish Directory** | `./` | Use `./` (current directory) - REQUIRED |
 
-> ⚠️ **Important:** "Publish Directory" is only for static sites (React, Vue, etc.). Flask is a backend application, so leave this field **blank** or it may cause deployment errors.
+> ⚠️ **Important:** Even though Flask doesn't need a publish directory, Render requires this field. Use `./` (dot slash) to indicate the current directory.
 
 ### ✅ Instance Type
 
@@ -42,29 +42,33 @@ Choose one:
 
 Click **Advanced** → **Add Environment Variable**
 
-Add these 5 variables:
+Add these 5 variables (get values from your `.env` file):
 
-```
-SUPABASE_URL=https://ntoewmrrwcinjvrwkgpu.supabase.co
-SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im50b2V3bXJyd2Npbmp2cndrZ3B1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkwNzM4MTgsImV4cCI6MjA3NDY0OTgxOH0.pY1280bWzvBqvwNaZV-jMP7n84Sr0qtCPQXMI-qbVB8
-SECRET_KEY=4ca01deadfa576f8968e2fc41ff59018c5cf4173a7cdd453c8d1bc36139a19f1
-ENCRYPTION_KEY=TU4ye6CPOtlCE1URkePijI0z0vkv69A8m9f-JrYhNgs=
-FLASK_ENV=production
-```
+| Variable | Where to Get Value |
+|----------|-------------------|
+| `SUPABASE_URL` | From Supabase dashboard → Project Settings → API |
+| `SUPABASE_ANON_KEY` | From Supabase dashboard → Project Settings → API |
+| `SECRET_KEY` | From your local `.env` file |
+| `ENCRYPTION_KEY` | From your local `.env` file |
+| `FLASK_ENV` | Set to `production` |
+
+> 🔒 **Security:** Never commit these values to GitHub. Add them directly in Render dashboard.
 
 ---
 
 ## 🎯 Common Mistakes to Avoid
 
-❌ **Don't** set Publish Directory (leave it blank)  
+❌ **Don't** leave Publish Directory blank (Render requires it now)  
 ❌ **Don't** use `python app.py` as start command (use `gunicorn app:app`)  
 ❌ **Don't** forget to add environment variables  
 ❌ **Don't** select "Static Site" (select "Web Service")  
+❌ **Don't** commit secret keys to GitHub
 
-✅ **Do** leave Publish Directory blank  
+✅ **Do** set Publish Directory to `./`  
 ✅ **Do** use `gunicorn app:app` as start command  
-✅ **Do** add all 5 environment variables  
+✅ **Do** add all 5 environment variables in Render dashboard  
 ✅ **Do** select "Web Service" when creating  
+✅ **Do** keep secrets in Render environment variables only  
 
 ---
 
@@ -91,12 +95,13 @@ FLASK_ENV=production
    Runtime: Python 3
    Build Command: pip install -r requirements.txt
    Start Command: gunicorn app:app
-   Publish Directory: (blank) ← IMPORTANT!
+   Publish Directory: ./ ← REQUIRED (use dot slash)
    ```
 
 5. **Environment Variables**
    - Click "Advanced"
-   - Add 5 variables (see above)
+   - Add 5 variables from your `.env` file
+   - Never commit these to GitHub!
 
 6. **Deploy**
    - Click "Create Web Service"
@@ -116,14 +121,16 @@ FLASK_ENV=production
 - Our file is `app.py` with `app = Flask(__name__)`
 
 **Publish Directory:**
-- Used for static sites (HTML/CSS/JS only)
-- Flask serves dynamic content, so **not needed**
-- Leave blank to avoid deployment errors
+- Render now requires this field (mandatory)
+- For Flask apps, use `./` (current directory)
+- This tells Render where your app files are located
+- Even though Flask doesn't build static files, Render needs this setting
 
 **Environment Variables:**
 - Secrets that shouldn't be in code
 - Loaded by `python-dotenv` in production
-- Same as `.env` file but secure
+- Copy values from your local `.env` file
+- Add them manually in Render dashboard (one by one)
 
 ---
 
@@ -152,6 +159,6 @@ Test it:
 
 **Quick Answer to Your Question:**
 
-> **Publish Directory:** Leave blank (or don't fill it)
+> **Publish Directory:** Required by Render - use `./` (dot slash)
 
-Flask is a backend application that serves dynamic content. The "Publish Directory" field is only for static sites (like React/Vue builds). For Flask, Render will use Gunicorn to serve your application directly, so no publish directory is needed.
+Render made this field mandatory. For Flask backend applications, use `./` to indicate the current directory where your app files are located. This is different from static sites which have build folders like `dist` or `build`.

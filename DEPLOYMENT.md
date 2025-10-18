@@ -88,7 +88,7 @@ git push -u origin main
 - **Runtime:** `Python 3`
 - **Build Command:** `pip install -r requirements.txt`
 - **Start Command:** `gunicorn app:app`
-- **Publish Directory:** Leave blank (not needed for Flask backend)
+- **Publish Directory:** `./` (required - use dot slash)
 
 **Instance Type:**
 - **Free** - Good for testing (spins down after 15 min inactivity)
@@ -98,15 +98,22 @@ git push -u origin main
 
 Click **Advanced** → **Add Environment Variable**
 
-Add these variables ONE BY ONE:
+Add these variables ONE BY ONE (get values from your local `.env` file):
 
-| Key | Value |
-|-----|-------|
-| `SUPABASE_URL` | `https://ntoewmrrwcinjvrwkgpu.supabase.co` |
-| `SUPABASE_ANON_KEY` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im50b2V3bXJyd2Npbmp2cndrZ3B1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkwNzM4MTgsImV4cCI6MjA3NDY0OTgxOH0.pY1280bWzvBqvwNaZV-jMP7n84Sr0qtCPQXMI-qbVB8` |
-| `SECRET_KEY` | `4ca01deadfa576f8968e2fc41ff59018c5cf4173a7cdd453c8d1bc36139a19f1` |
-| `ENCRYPTION_KEY` | `TU4ye6CPOtlCE1URkePijI0z0vkv69A8m9f-JrYhNgs=` |
-| `FLASK_ENV` | `production` |
+| Key | Where to Get Value |
+|-----|-------------------|
+| `SUPABASE_URL` | Supabase Dashboard → Project Settings → API → URL |
+| `SUPABASE_ANON_KEY` | Supabase Dashboard → Project Settings → API → anon public key |
+| `SECRET_KEY` | Copy from your local `.env` file |
+| `ENCRYPTION_KEY` | Copy from your local `.env` file |
+| `FLASK_ENV` | Set to: `production` |
+
+**How to find Supabase credentials:**
+1. Go to: https://app.supabase.com/project/ntoewmrrwcinjvrwkgpu/settings/api
+2. Copy **Project URL** → Use for `SUPABASE_URL`
+3. Copy **anon public** key → Use for `SUPABASE_ANON_KEY`
+
+> 🔒 **Security Note:** Never commit these values to GitHub! Add them only in Render dashboard.
 
 ### Step 6: Deploy
 
